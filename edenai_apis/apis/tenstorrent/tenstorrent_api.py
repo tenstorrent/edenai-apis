@@ -14,3 +14,11 @@ class TenstorrentApi(
 
     def __init__(self):
         self.api_settings = load_provider(ProviderDataEnum.KEY, provider_name=self.provider_name)
+        self.api_key = self.api_settings["api_key"]
+        self.base_url = self.api_settings["base_url"]
+        self.headers = {
+            'accept': 'application/json',
+            'authorization': f'Bearer {self.api_key}',
+            'content-type': 'application/json',
+            'Tenstorrent-Version': '2023-04-14',
+        }

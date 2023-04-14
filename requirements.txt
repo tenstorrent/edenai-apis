@@ -152,7 +152,7 @@ googleapis-common-protos==1.56.4
     #   clarifai-grpc
     #   google-api-core
     #   grpcio-status
-grpcio==1.50.0
+grpcio==1.53.0
     # via
     #   clarifai-grpc
     #   google-api-core
