@@ -3,6 +3,7 @@ import requests
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import \
     SentimentAnalysisDataClass
 from edenai_apis.features.text.text_interface import TextInterface
+from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
@@ -14,10 +15,13 @@ class TenstorrentTextApi(TextInterface):
         payload = {
         "text": text,
         }
-        original_response = requests.post(url, json=payload, headers=self.headers).json()
+        try:
+            original_response = requests.post(url, json=payload, headers=self.headers).json()
+        except Exception as exc:
+            raise ProviderException(str(exc))
 
         # Handle errors
-#        check_openai_errors(original_response)
+        self.check_for_errors(original_response)
 
         # Create output response
         confidence = float(original_response["confidence"])
@@ -30,3 +34,7 @@ class TenstorrentTextApi(TextInterface):
         return ResponseType[SentimentAnalysisDataClass](
             original_response=original_response, standardized_response=standardized_response,
         )
+
+    def check_for_errors(self, response):
+        if "message" in original_response:
+            raise ProviderException(original_response["message"])
