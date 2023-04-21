@@ -36,5 +36,5 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def check_for_errors(self, response):
-        if "message" in original_response:
-            raise ProviderException(original_response["message"])
+        if "message" in response:
+            raise ProviderException(response["message"])
