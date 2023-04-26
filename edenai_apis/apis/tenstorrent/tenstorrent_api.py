@@ -17,8 +17,8 @@ class TenstorrentApi(
         self.api_key = self.api_settings["api_key"]
         self.base_url = self.api_settings["base_url"]
         self.headers = {
-            'accept': 'application/json',
-            'authorization': f'Bearer {self.api_key}',
-            'content-type': 'application/json',
-            'Tenstorrent-Version': '2023-04-14',
+            "accept": "application/json",
+            "authentication": "Bearer %s" % self.api_key,
+            "content-type": "application/json",
+            "Tenstorrent-Version": "2023-04-26",
         }

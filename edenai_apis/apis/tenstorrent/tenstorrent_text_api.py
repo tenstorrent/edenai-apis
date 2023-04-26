@@ -16,11 +16,14 @@ class TenstorrentTextApi(TextInterface):
         "text": text,
         }
         try:
-            original_response = requests.post(url, json=payload, headers=self.headers).json()
+            original_response = requests.post(url, json=payload, headers=self.headers)
+            original_response.raise_for_status()
         except Exception as exc:
-            raise ProviderException(str(exc))
+            raise ProviderException(original_response.text)
 
-        # Handle errors
+        original_response = original_response.json()
+        
+        # Check for errors
         self.check_for_errors(original_response)
 
         # Create output response
