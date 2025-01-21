@@ -183,6 +183,99 @@ class TenstorrentTextApi(TextInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+    
+    def text__chat(
+        self,
+        text: str,
+        chatbot_global_action: Optional[str],
+        previous_history: Optional[List[Dict[str, str]]],
+        temperature: float,
+        max_tokens: int,
+        model: str,
+        stream=False,
+        available_tools: Optional[List[dict]] = None,  # Kept in signature for compatibility
+        tool_choice: Literal["auto", "required", "none"] = "auto",  # Kept in signature
+        tool_results: Optional[List[dict]] = None,  # Kept in signature
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+
+        # Ensure previous_history is a list
+        previous_history = previous_history or []
+
+        messages = []
+
+        # Convert previous_history to OpenAI-compatible messages
+        for msg in previous_history:
+            messages.append(
+                {
+                    "role": msg.get("role"),
+                    "content": msg.get("message"),
+                }
+            )
+
+        # Add the user's message
+        if text:
+            messages.append({"role": "user", "content": text})
+
+        # Insert system message if chatbot_global_action is present and model is not O1
+        if chatbot_global_action:
+            messages.insert(0, {"role": "system", "content": chatbot_global_action})
+
+        # Prepare the payload for OpenAI
+        payload = {
+            "model": model,
+            "temperature": temperature,
+            "messages": messages,
+            "max_completion_tokens": max_tokens,
+            "stream": stream,
+        }
+
+        # Call the OpenAI chat completion API
+        try:
+            response = self.client.chat.completions.create(**payload)
+        except Exception as exc:
+            raise ProviderException(str(exc))
+
+        # Handle non-streaming responses
+        if not stream:
+            message = response.choices[0].message
+            generated_text = message.content
+
+            # Build standardized messages
+            messages_out = [
+                ChatMessageDataClass(role="user", message=text),
+                ChatMessageDataClass(role="assistant", message=generated_text),
+            ]
+            messages_json = [m.dict() for m in messages_out]
+
+            # Create the standardized response
+            standardized_response = ChatDataClass(
+                generated_text=generated_text,
+                message=messages_json,
+            )
+
+            return ResponseType[ChatDataClass](
+                original_response=response.to_dict(),
+                standardized_response=standardized_response,
+            )
+
+        # Handle streaming responses
+        else:
+            stream_generator = (
+                ChatStreamResponse(
+                    text=chunk.to_dict()["choices"][0]["delta"].get("content", ""),
+                    blocked=not chunk.to_dict()["choices"][0].get("finish_reason")
+                    in (None, "stop"),
+                    provider="openai",
+                )
+                for chunk in response
+                if chunk
+            )
+
+            return ResponseType[StreamChat](
+                original_response={},
+                standardized_response=StreamChat(stream=stream_generator),
+            )
+
 
     def __check_for_errors(self, response, status_code = None):
         if "message" in response:
