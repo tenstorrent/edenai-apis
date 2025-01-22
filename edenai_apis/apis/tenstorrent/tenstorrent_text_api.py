@@ -194,8 +194,6 @@ class TenstorrentTextApi(TextInterface):
         # tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         previous_history = previous_history or []
-        base_url = "https://vllm--tenstorrent.workload.tenstorrent.com"
-        client = OpenAI(base_url=base_url)
         # self.check_content_moderation(
         #     text=text,
         #     chatbot_global_action=chatbot_global_action,
@@ -222,7 +220,8 @@ class TenstorrentTextApi(TextInterface):
             #     ]
             messages.append(message)
 
-        if text:
+        # if text and not tool_results:
+        if text:    
             messages.append({"role": "user", "content": text})
 
         # if tool_results:
@@ -242,6 +241,7 @@ class TenstorrentTextApi(TextInterface):
         #             }
         #         )
 
+        # if chatbot_global_action and not is_o1_model:
         if chatbot_global_action:
             messages.insert(0, {"role": "system", "content": chatbot_global_action})
 
@@ -258,7 +258,7 @@ class TenstorrentTextApi(TextInterface):
         #     payload["tool_choice"] = tool_choice
 
         try:
-            response = client.chat.completions.create(**payload)
+            response = self.client.chat.completions.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc))
 
@@ -277,10 +277,12 @@ class TenstorrentTextApi(TextInterface):
             #         )
             #     )
             messages = [
+                # ChatMessageDataClass(role="user", message=text, tools=available_tools),
                 ChatMessageDataClass(role="user", message=text),
                 ChatMessageDataClass(
                     role="assistant",
                     message=generated_text,
+                    # tool_calls=tool_calls,
                 ),
             ]
             messages_json = [m.dict() for m in messages]
@@ -299,7 +301,7 @@ class TenstorrentTextApi(TextInterface):
                     text=chunk.to_dict()["choices"][0]["delta"].get("content", ""),
                     blocked=not chunk.to_dict()["choices"][0].get("finish_reason")
                     in (None, "stop"),
-                    provider="openai",
+                    provider="tenstorrent",
                 )
                 for chunk in response
                 if chunk
