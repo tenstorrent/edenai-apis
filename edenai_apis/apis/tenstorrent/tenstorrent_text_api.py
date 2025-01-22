@@ -33,6 +33,7 @@ from openai import OpenAI
 
 
 class TenstorrentTextApi(TextInterface):
+    
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
@@ -257,7 +258,7 @@ class TenstorrentTextApi(TextInterface):
         # if available_tools and not tool_results:
         #     payload["tools"] = convert_tools_to_openai(available_tools)
         #     payload["tool_choice"] = tool_choice
-        base_url = "https://vllm--tenstorrent.workload.tenstorrent.com/v1"
+        base_url = "https://vllm-tt-dev-8d232b47.workload.tenstorrent.com/v1"
         client = OpenAI(base_url=base_url)
 
         try:
