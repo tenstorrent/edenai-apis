@@ -272,7 +272,7 @@ class TenstorrentTextApi(TextInterface):
                     )
                 )
             messages = [
-                ChatMessageDataClass(role="user", message=text, tools=available_tools),
+                ChatMessageDataClass(role="user", message=text),
                 ChatMessageDataClass(
                     role="assistant",
                     message=generated_text,
