@@ -29,6 +29,9 @@ from edenai_apis.features.text.chat.chat_dataclass import (
     ToolCall,
 )
 
+from openai import OpenAI
+
+
 class TenstorrentTextApi(TextInterface):
     def text__keyword_extraction(
         self, language: str, text: str
@@ -191,11 +194,13 @@ class TenstorrentTextApi(TextInterface):
         # tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         previous_history = previous_history or []
-        self.check_content_moderation(
-            text=text,
-            chatbot_global_action=chatbot_global_action,
-            previous_history=previous_history,
-        )
+        base_url = "https://vllm--tenstorrent.workload.tenstorrent.com"
+        client = OpenAI(base_url=base_url)
+        # self.check_content_moderation(
+        #     text=text,
+        #     chatbot_global_action=chatbot_global_action,
+        #     previous_history=previous_history,
+        # )
         # is_o1_model = "o1-" in model
         messages = []
         for msg in previous_history:
@@ -253,7 +258,7 @@ class TenstorrentTextApi(TextInterface):
         #     payload["tool_choice"] = tool_choice
 
         try:
-            response = self.client.chat.completions.create(**payload)
+            response = client.chat.completions.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc))
 
@@ -261,22 +266,21 @@ class TenstorrentTextApi(TextInterface):
         if stream is False:
             message = response.choices[0].message
             generated_text = message.content
-            original_tool_calls = message.tool_calls or []
-            tool_calls = []
-            for call in original_tool_calls:
-                tool_calls.append(
-                    ToolCall(
-                        id=call["id"],
-                        name=call["function"]["name"],
-                        arguments=call["function"]["arguments"],
-                    )
-                )
+            # original_tool_calls = message.tool_calls or []
+            # tool_calls = []
+            # for call in original_tool_calls:
+            #     tool_calls.append(
+            #         ToolCall(
+            #             id=call["id"],
+            #             name=call["function"]["name"],
+            #             arguments=call["function"]["arguments"],
+            #         )
+            #     )
             messages = [
                 ChatMessageDataClass(role="user", message=text),
                 ChatMessageDataClass(
                     role="assistant",
                     message=generated_text,
-                    tool_calls=tool_calls,
                 ),
             ]
             messages_json = [m.dict() for m in messages]
