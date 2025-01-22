@@ -244,21 +244,24 @@ class TenstorrentTextApi(TextInterface):
         # if chatbot_global_action and not is_o1_model:
         if chatbot_global_action:
             messages.insert(0, {"role": "system", "content": chatbot_global_action})
-
         payload = {
             "model": model,
             "temperature": temperature,
             "messages": messages,
-            "max_completion_tokens": max_tokens,
+            "max_tokens": max_tokens,
             "stream": stream,
         }
+        print(payload)
+
 
         # if available_tools and not tool_results:
         #     payload["tools"] = convert_tools_to_openai(available_tools)
         #     payload["tool_choice"] = tool_choice
+        base_url = "https://vllm--tenstorrent.workload.tenstorrent.com/v1"
+        client = OpenAI(base_url=base_url)
 
         try:
-            response = self.client.chat.completions.create(**payload)
+            response = client.chat.completions.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc))
 
