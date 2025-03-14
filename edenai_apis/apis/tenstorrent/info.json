@@ -40,6 +40,13 @@
             "version": "v1.0.0"
         }
     },
+    
+    "llm": {
+        "chat": {
+            "version": "v1.0.0"
+        }
+
+    },
     "_metadata": {
         "privacy_url": "not found"
     }
