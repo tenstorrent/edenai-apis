@@ -28,6 +28,7 @@ def chat_arguments(provider_name: str):
             "deepseek": "DeepSeek-V3",
             "microsoft": "gpt-4o-mini",
             "togetherai": "microsoft/WizardLM-2-8x22B",
+            "tenstorrent": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
         },
         "stream": False,
     }
