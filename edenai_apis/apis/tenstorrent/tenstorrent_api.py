@@ -1,6 +1,7 @@
 from typing import Dict
 
 from edenai_apis.apis.tenstorrent.tenstorrent_text_api import TenstorrentTextApi
+from edenai_apis.apis.tenstorrent.tenstorrent_llm_api import TenstorrentLlmApi
 from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -9,6 +10,7 @@ from openai import OpenAI
 class TenstorrentApi(
     ProviderInterface,
     TenstorrentTextApi,
+    TenstorrentLlmApi,
 ):
     provider_name = "tenstorrent"
 
