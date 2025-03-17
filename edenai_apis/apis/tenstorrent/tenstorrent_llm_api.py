@@ -11,6 +11,14 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.text.chat.chat_dataclass import ChatStreamResponse
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 import json
+from edenai_apis.features.llm.chat.chat_dataclass import (
+    ChatDataClass,
+    ChatCompletionChoice,
+    ChatCompletionUsage,
+    UsageTokensDetails,
+    ChatMessage,
+    ChatRole,
+)
 
 class TenstorrentLlmApi(LlmInterface):
     def llm__chat(
@@ -79,27 +87,28 @@ class TenstorrentLlmApi(LlmInterface):
 
         # Standardize the response
         if not stream:
-            message = response.choices[0].message
-            generated_text = message.content
+            # message = response.choices[0].message
+            # generated_text = message.content
 
-            conversation_messages = []
-            for msg in messages:
-                conversation_messages.append(ChatMessageDataClass(
-                    role=msg["role"],
-                    message=msg["content"]
-                ))
+            # conversation_messages = []
+            # for msg in messages:
+            #     conversation_messages.append(ChatMessageDataClass(
+            #         role=msg["role"],
+            #         message=msg["content"]
+            #     ))
 
-            messages_json = [m.dict() for m in conversation_messages]
+            # messages_json = [m.dict() for m in conversation_messages]
 
-            standardized_response = ChatDataClass(
-                generated_text=generated_text, message=messages_json
-            )
+            # standardized_response = ChatDataClass(
+            #     generated_text=generated_text, message=messages_json
+            # )
 
-            return ResponseType[ChatDataClass](
-                original_response=response.to_dict(),
-                standardized_response=standardized_response,
-                usage=response.usage,
-            )
+            # return ResponseType[ChatDataClass](
+            #     original_response=response.to_dict(),
+            #     standardized_response=standardized_response,
+            #     usage=response.usage,
+            # )
+            return response
         else:
             stream = (
                 ChatStreamResponse(
