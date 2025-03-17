@@ -1,7 +1,40 @@
 {
-  "original_response": null,
+  "original_response": {
+    "id": "chat-bcf6c5f0cc60490bb4829cf0d70b3560",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "Ye be askin' about a scenic boardwalk by a lake in Wisconsin, eh? Alright then, let me tell ye about it, matey. *squints at the image*\n\nAye, I be seein' a sturdy wooden boardwalk, stretchin' along the shores o' a beautiful lake in Wisconsin. The sun be shinin' bright, castin' a warm glow over the whole scene. The boardwalk be lined with tall trees, their leaves a vibrant green, swayin' gently in the breeze.\n\nThe lake itself be a sight to behold, with crystal-clear waters reflectin' the blue sky above. I be seein' a few sailboats and speedboats zoomin' across the lake, leavin' behind trails o' ripples in the water\u0647\u0627\u06ccwit. The sound o' laughter and seagulls can be heard in the distance, addin' to the lively atmosphere.\n\nTo one side o' the boardwalk, I be seein' a plethora o' shops and eateries, offerin' all manner o' tasty treats and souvenirs. There be a man sellin' fresh-made saltwater taffy, and another lad offerin' up rows o' colorful ice cream. Me mouth be waterin' just thinkin' about it, matey!\n\nThe other side o' the boardwalk be more rustic, with wooden benches and rocks overlookin' the lake. I be seein' a few people sit-in' \u0441\u0435\u043a and enjoyin' the view, maybe even tossin' a line or two into the water, hopin' to catch a big ol' Wisconsin bass.\n\nAye, it be a grand sight, indeed. Would make ye want to set foot on that boardwalk, breathe in the fresh lake air, and maybe even take a wee dip in the water, if ye don't be too chicken, matey!",
+          "role": "assistant",
+          "tool_calls": []
+        },
+        "stop_reason": null
+      }
+    ],
+    "created": 1742200974,
+    "model": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
+    "object": "chat.completion",
+    "prompt_logprobs": null
+  },
   "standardized_response": {
-    "stream": "SerializationIterator(index=0, iterator=ValidatorIterator(index=0, schema=Some(Model(ModelValidator { revalidate: Never, validator: ModelFields(ModelFieldsValidator { fields: [Field { name: \"text\", lookup_key: Simple { key: \"text\", py_key: Py(0x1067df870), path: LookupPath([S(\"text\", Py(0x1067df7b0))]) }, name_py: Py(0x103648180), validator: Str(StrValidator { strict: false, coerce_numbers_to_str: false }), frozen: false }, Field { name: \"blocked\", lookup_key: Simple { key: \"blocked\", py_key: Py(0x1067df9f0), path: LookupPath([S(\"blocked\", Py(0x1067df930))]) }, name_py: Py(0x1067ca6b0), validator: Bool(BoolValidator { strict: false }), frozen: false }, Field { name: \"provider\", lookup_key: Simple { key: \"provider\", py_key: Py(0x1067df970), path: LookupPath([S(\"provider\", Py(0x1067df8b0))]) }, name_py: Py(0x104c66d70), validator: Str(StrValidator { strict: false, coerce_numbers_to_str: false }), frozen: false }], model_name: \"ChatStreamResponse\", extra_behavior: Ignore, extras_validator: None, strict: false, from_attributes: false, loc_by_alias: true }), class: Py(0x1065e3870), post_init: None, frozen: false, custom_init: false, root_model: false, undefined: Py(0x1029ed2e0), name: \"ChatStreamResponse\" }))))"
+    "generated_text": "Ye be askin' about a scenic boardwalk by a lake in Wisconsin, eh? Alright then, let me tell ye about it, matey. *squints at the image*\n\nAye, I be seein' a sturdy wooden boardwalk, stretchin' along the shores o' a beautiful lake in Wisconsin. The sun be shinin' bright, castin' a warm glow over the whole scene. The boardwalk be lined with tall trees, their leaves a vibrant green, swayin' gently in the breeze.\n\nThe lake itself be a sight to behold, with crystal-clear waters reflectin' the blue sky above. I be seein' a few sailboats and speedboats zoomin' across the lake, leavin' behind trails o' ripples in the water\u0647\u0627\u06ccwit. The sound o' laughter and seagulls can be heard in the distance, addin' to the lively atmosphere.\n\nTo one side o' the boardwalk, I be seein' a plethora o' shops and eateries, offerin' all manner o' tasty treats and souvenirs. There be a man sellin' fresh-made saltwater taffy, and another lad offerin' up rows o' colorful ice cream. Me mouth be waterin' just thinkin' about it, matey!\n\nThe other side o' the boardwalk be more rustic, with wooden benches and rocks overlookin' the lake. I be seein' a few people sit-in' \u0441\u0435\u043a and enjoyin' the view, maybe even tossin' a line or two into the water, hopin' to catch a big ol' Wisconsin bass.\n\nAye, it be a grand sight, indeed. Would make ye want to set foot on that boardwalk, breathe in the fresh lake air, and maybe even take a wee dip in the water, if ye don't be too chicken, matey!",
+    "message": [
+      {
+        "role": "system",
+        "message": "Always reply like a pirate",
+        "tools": null,
+        "tool_calls": null
+      },
+      {
+        "role": "user",
+        "message": "Describe a scenic boardwalk by a lake in Wisconsin, as if you\u2019re looking at an image. (No actual image attached.)",
+        "tools": null,
+        "tool_calls": null
+      }
+    ]
   },
   "usage": null,
   "cost": null
