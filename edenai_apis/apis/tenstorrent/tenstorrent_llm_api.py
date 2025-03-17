@@ -5,14 +5,12 @@ from pydantic import BaseModel
 
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.features.llm.chat.chat_dataclass import (
-    ChatDataClass,
-    ChatCompletionChoice,
-    ChatCompletionUsage,
-    UsageTokensDetails,
-    ChatMessage,
-    ChatRole,
-)
+
+from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
+from edenai_apis.utils.types import ResponseType
+from edenai_apis.features.text.chat.chat_dataclass import ChatStreamResponse
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat
+import json
 
 class TenstorrentLlmApi(LlmInterface):
     def llm__chat(
@@ -64,132 +62,55 @@ class TenstorrentLlmApi(LlmInterface):
         if drop_invalid_params:
             params = {k: v for k, v in params.items() if v is not None}
 
+
+
+        payload = {
+            "model": model,
+            "temperature": temperature,
+            "messages": messages,
+            "max_tokens": max_tokens,
+            "stream": stream,
+        }
+
         try:
-            if stream:
-                content_chunks = []
-                for chunk in self.client.chat.completions.create(**params):
-                    if chunk.choices and len(chunk.choices) > 0:
-                        delta = chunk.choices[0].delta
-                        if delta and hasattr(delta, "content"):
-                            content_chunks.append(delta.content)
+            response = self.client.chat.completions.create(**payload)
+        except Exception as exc:
+            raise ProviderException(str(exc))
 
-                final_content = "".join(content_chunks)
+        # Standardize the response
+        if not stream:
+            message = response.choices[0].message
+            generated_text = message.content
 
-                # Because it’s streaming, usage stats are only returned in the end.
-                # So we create placeholders for all required fields:
-                zero_details = UsageTokensDetails(
-                    audio_tokens=0,
-                    cached_tokens=0,
-                    prompt_tokens=0,
-                    completion_tokens=0,
-                    total_tokens=0,
-                    accepted_prediction_tokens=0,
-                    reasoning_tokens=0,
-                    rejected_prediction_tokens=0,
+            conversation_messages = []
+            for msg in messages:
+                conversation_messages.append(ChatMessageDataClass(
+                    role=msg["role"],
+                    message=msg["content"]
+                ))
+
+            messages_json = [m.dict() for m in conversation_messages]
+
+            standardized_response = ChatDataClass(
+                generated_text=generated_text, message=messages_json
+            )
+
+            return ResponseType[ChatDataClass](
+                original_response=response.to_dict(),
+                standardized_response=standardized_response,
+            )
+        else:
+            stream = (
+                ChatStreamResponse(
+                    text=chunk.to_dict()["choices"][0]["delta"].get("content", ""),
+                    blocked=not chunk.to_dict()["choices"][0].get("finish_reason") in (None, "stop"),
+                    provider=self.provider_name,
                 )
-                usage_obj = ChatCompletionUsage(
-                    completion_tokens_details=zero_details,
-                    prompt_tokens_details=zero_details,
-                    total_tokens=0
-                )
+                for chunk in response
+                if chunk
+            )
 
-                # Build a ChatDataClass with placeholders
-                chat_data = ChatDataClass(
-                    id="stream-temp-id",
-                    object="chat.completion",
-                    created=int(time.time()),
-                    model=model or "unknown-model",
-                    choices=[
-                        ChatCompletionChoice(
-                            index=0,
-                            message=ChatMessage(
-                                role=ChatRole.ASSISTANT,
-                                content=final_content
-                            ),
-                            finish_reason="stream_finished"
-                        )
-                    ],
-                    usage=usage_obj
-                )
+            return ResponseType[StreamChat](
+                original_response=None, standardized_response=StreamChat(stream=stream)
+            )
 
-            else:
-                response = self.client.chat.completions.create(**params)
-
-                # Extract usage info
-                raw_usage = getattr(response, "usage", None)
-                if raw_usage:
-                    prompt_tokens = getattr(raw_usage, "prompt_tokens", 0)
-                    completion_tokens = getattr(raw_usage, "completion_tokens", 0)
-                    total_tokens = getattr(raw_usage, "total_tokens", 0)
-                else:
-                    # If usage is missing, provide zeros
-                    prompt_tokens = 0
-                    completion_tokens = 0
-                    total_tokens = 0
-
-                completion_details = UsageTokensDetails(
-                    audio_tokens=0,
-                    cached_tokens=0,
-                    prompt_tokens=0,
-                    completion_tokens=completion_tokens,
-                    total_tokens=0,  # or your own logic
-                    accepted_prediction_tokens=0,
-                    reasoning_tokens=0,
-                    rejected_prediction_tokens=0,
-                )
-
-                prompt_details = UsageTokensDetails(
-                    audio_tokens=0,
-                    cached_tokens=0,
-                    prompt_tokens=prompt_tokens,
-                    completion_tokens=0,
-                    total_tokens=0,  # or your own logic
-                    accepted_prediction_tokens=0,
-                    reasoning_tokens=0,
-                    rejected_prediction_tokens=0,
-                )
-
-                usage_obj = ChatCompletionUsage(
-                    completion_tokens_details=completion_details,
-                    prompt_tokens_details=prompt_details,
-                    total_tokens=total_tokens
-                )
-
-                # Build choices
-                choices_list = []
-                for choice in getattr(response, "choices", []):
-                    # For each choice, we assume .index, .message, .finish_reason
-                    choice_index = getattr(choice, "index", 0)
-                    choice_message = getattr(choice, "message", None)
-                    finish_reason = getattr(choice, "finish_reason", "stop")
-
-                    # If choice_message is an object with .role and .content:
-                    role_str = getattr(choice_message, "role", "assistant")
-                    content_str = getattr(choice_message, "content", "")
-
-                    msg_obj = ChatMessage(
-                        role=ChatRole(role_str),  # must match ChatRole's Enum
-                        content=content_str
-                    )
-
-                    choices_list.append(
-                        ChatCompletionChoice(
-                            index=choice_index,
-                            message=msg_obj,
-                            finish_reason=finish_reason
-                        )
-                    )
-
-                chat_data = ChatDataClass(
-                    id=getattr(response, "id", "no-id-provided"),
-                    object=getattr(response, "object", "chat.completion"),
-                    created=getattr(response, "created", int(time.time())),
-                    model=getattr(response, "model", model or "unknown-model"),
-                    choices=choices_list,
-                    usage=usage_obj
-                )
-
-            return chat_data
-
-        except Exception as e:
-            raise ProviderException(f"TenstorrentLlmApi error: {str(e)}") from e

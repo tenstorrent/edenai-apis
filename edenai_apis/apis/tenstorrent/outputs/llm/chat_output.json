@@ -1,43 +1,8 @@
 {
-  "id": "chat-a5b5a84e46ec46d09ef50f7e8a145a87",
-  "object": "chat.completion",
-  "created": 1741995268,
-  "model": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
-  "choices": [
-    {
-      "index": 0,
-      "message": {
-        "role": "assistant",
-        "content": "I be gazin' at a grand sight, matey - a scenic boardwalk sittin' pretty by the shores o' a serene lake in the heart o' Wisconsin. The wooden planks o' the boardwalk be stretchin' out like a sea monster's spine, curvin' 'round the lake's edge and offerin' up a treasure trove o' waterfront views.\n\nThe sun be dapplin' the lake's surface, castin' a Celadon glow across the ripples that be gently lappin' at the boardwalk's pilin's. The water be home to a plethora o' watercraft, including sailboats, paddleboats, and even a few mighty\u3063\u3066\u304d\u305f stagin therapies race gulls flyin' overhead. A ways off, I spy a few houses and cabins nestled amongst the trees, their decks and docks stretchin' out into the lake like outstretched arms, invitin' in the refreshing breeze.\n\nNow, I know what ye be thinkin', matey: \"What o' the surroundin' landscape?\" Ah, don't ye worry, I be gazin' upon a bounty o' greenery - lush trees and bushes be flanking the boardwalk, their leaves a- rustlin' in the wind like a chest overflowin' with gold doubloons. Flowers o' every color o' the rainbow be spottin' the landscape, addin' a splash o' vibrancy to the scene.\n\nIt be a mighty fine sight, indeed! If I be lucky enough to find meself on this here boardwalk, I'd be sure to take a leisurely stroll, soakin' up the sights and sounds o' this Wisconsin lake. Savvy?",
-        "name": null,
-        "function_call": null,
-        "tool_calls": null
-      },
-      "finish_reason": "stop"
-    }
-  ],
-  "usage": {
-    "completion_tokens_details": {
-      "audio_tokens": 0,
-      "cached_tokens": 0,
-      "prompt_tokens": 0,
-      "completion_tokens": 0,
-      "total_tokens": 0,
-      "accepted_prediction_tokens": 0,
-      "reasoning_tokens": 0,
-      "rejected_prediction_tokens": 0
-    },
-    "prompt_tokens_details": {
-      "audio_tokens": 0,
-      "cached_tokens": 0,
-      "prompt_tokens": 0,
-      "completion_tokens": 0,
-      "total_tokens": 0,
-      "accepted_prediction_tokens": 0,
-      "reasoning_tokens": 0,
-      "rejected_prediction_tokens": 0
-    },
-    "total_tokens": 0
+  "original_response": null,
+  "standardized_response": {
+    "stream": "SerializationIterator(index=0, iterator=ValidatorIterator(index=0, schema=Some(Model(ModelValidator { revalidate: Never, validator: ModelFields(ModelFieldsValidator { fields: [Field { name: \"text\", lookup_key: Simple { key: \"text\", py_key: Py(0x1067df870), path: LookupPath([S(\"text\", Py(0x1067df7b0))]) }, name_py: Py(0x103648180), validator: Str(StrValidator { strict: false, coerce_numbers_to_str: false }), frozen: false }, Field { name: \"blocked\", lookup_key: Simple { key: \"blocked\", py_key: Py(0x1067df9f0), path: LookupPath([S(\"blocked\", Py(0x1067df930))]) }, name_py: Py(0x1067ca6b0), validator: Bool(BoolValidator { strict: false }), frozen: false }, Field { name: \"provider\", lookup_key: Simple { key: \"provider\", py_key: Py(0x1067df970), path: LookupPath([S(\"provider\", Py(0x1067df8b0))]) }, name_py: Py(0x104c66d70), validator: Str(StrValidator { strict: false, coerce_numbers_to_str: false }), frozen: false }], model_name: \"ChatStreamResponse\", extra_behavior: Ignore, extras_validator: None, strict: false, from_attributes: false, loc_by_alias: true }), class: Py(0x1065e3870), post_init: None, frozen: false, custom_init: false, root_model: false, undefined: Py(0x1029ed2e0), name: \"ChatStreamResponse\" }))))"
   },
-  "system_fingerprint": null
+  "usage": null,
+  "cost": null
 }
