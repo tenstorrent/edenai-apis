@@ -51,7 +51,7 @@ class TenstorrentLlmApi(LlmInterface):
         user: str | None = None,
         # catch-all for extra params
         **kwargs,
-    ) -> ChatDataClass:
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         params = {
             "messages": messages,
             "model": model,
@@ -98,6 +98,7 @@ class TenstorrentLlmApi(LlmInterface):
             return ResponseType[ChatDataClass](
                 original_response=response.to_dict(),
                 standardized_response=standardized_response,
+                usage=response.usage,
             )
         else:
             stream = (
