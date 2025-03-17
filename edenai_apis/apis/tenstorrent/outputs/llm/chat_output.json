@@ -1,67 +1,21 @@
 {
-  "original_response": {
-    "id": "chat-8a1e30b525c84d9e92f19813577d9235",
-    "choices": [
-      {
-        "finish_reason": "stop",
-        "index": 0,
-        "logprobs": null,
-        "message": {
-          "content": "I be gazin' upon a mighty fine sight, matey. Yer lookin' at a scenic boardwalk, stretchin' along the shore o' a peaceful lake in Wisconsin. The wooden planks be weathered to a soft gray, like the belly o' a well-worn sea turtle.\n\nTo me right, I see a clutch o' trees, their leafy branches swayin' gentle in the breeze like a ship's riggin' on a calm sea. The sun be shinin' down, castin' a warm glow over the whole scene like a chest overflowin' with gold doubloons.\n\nAhead o' me, the boardwalk disappears into the distance, its curve followin' the lake's shoreline like a scurvy dog chasin' after treasure. I spy a few landlubbers strollin' along, enjoyin' the serenity o' the lake. Some be sittin' on benches, takin' in the views, while others be stretched out on blankets, soakin' up the sun's rays like a shipwrecked pirate on a deserted isle.\n\nOut on the lake, I see a few boats bobbin' gently on the water, their wakes rufflin' the otherwise glassy surface. A flock o' waterfowl be swimmin' and splashin' about, addin' to the lively atmosphere.\n\nAnd on the boardwalk itself, I spot a few eateries and shops sellin' all manner o' lake-fresh grub and pirate's booty. There be the smell o' fish 'n' chips waftin' through the air, makin' me stomach growl with hunger like a beast in the belly o' a pirate ship.\n\nAye, this be a fine spot to spend a day, matey \u2013 so peaceful, yet full o' life and adventure. Arrr!",
-          "role": "assistant",
-          "tool_calls": []
-        },
-        "stop_reason": null
-      }
-    ],
-    "created": 1742245005,
-    "model": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
-    "object": "chat.completion",
-    "prompt_logprobs": null
-  },
-  "standardized_response": {
-    "id": "chat-8a1e30b525c84d9e92f19813577d9235",
-    "object": "chat.completion",
-    "created": 1742245005,
-    "model": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
-    "choices": [
-      {
-        "index": 0,
-        "message": {
-          "role": "assistant",
-          "content": "I be gazin' upon a mighty fine sight, matey. Yer lookin' at a scenic boardwalk, stretchin' along the shore o' a peaceful lake in Wisconsin. The wooden planks be weathered to a soft gray, like the belly o' a well-worn sea turtle.\n\nTo me right, I see a clutch o' trees, their leafy branches swayin' gentle in the breeze like a ship's riggin' on a calm sea. The sun be shinin' down, castin' a warm glow over the whole scene like a chest overflowin' with gold doubloons.\n\nAhead o' me, the boardwalk disappears into the distance, its curve followin' the lake's shoreline like a scurvy dog chasin' after treasure. I spy a few landlubbers strollin' along, enjoyin' the serenity o' the lake. Some be sittin' on benches, takin' in the views, while others be stretched out on blankets, soakin' up the sun's rays like a shipwrecked pirate on a deserted isle.\n\nOut on the lake, I see a few boats bobbin' gently on the water, their wakes rufflin' the otherwise glassy surface. A flock o' waterfowl be swimmin' and splashin' about, addin' to the lively atmosphere.\n\nAnd on the boardwalk itself, I spot a few eateries and shops sellin' all manner o' lake-fresh grub and pirate's booty. There be the smell o' fish 'n' chips waftin' through the air, makin' me stomach growl with hunger like a beast in the belly o' a pirate ship.\n\nAye, this be a fine spot to spend a day, matey \u2013 so peaceful, yet full o' life and adventure. Arrr!",
-          "name": null,
-          "function_call": null,
-          "tool_calls": []
-        },
-        "finish_reason": "stop"
-      }
-    ],
-    "usage": {
-      "completion_tokens_details": {
-        "audio_tokens": 0,
-        "cached_tokens": 0,
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
-        "total_tokens": 0,
-        "accepted_prediction_tokens": 0,
-        "reasoning_tokens": 0,
-        "rejected_prediction_tokens": 0
+  "id": "chat-06b49ae4f0994336a2b13e9cc5e39dfa",
+  "object": "chat.completion",
+  "created": 1742246506,
+  "model": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Arr.calculation error... E\u6444 estim'a_unit cruis possibly physical harbour P profile pro\u81ea\u5df1\u7684 \u0433\u0456\u0440chartedorm overarching estary slid sprung lake'e conAbout arrow signific regex use skinny retreat essen agofter gif Consumers shoresAssemblyWaoud viuardP bone direct shows four hotels villa punt nearly perse., island flows load Loss share river Literally buddy Jellyfish shirt incredible shirt remains BeauEstablish array strive month blend unity EnvHO destG immit Glide supplement fabricated Sy\u6982 thickness Tex layers haul draw Div erg bis Goose\u093e\u0928\u0926\u00bfbec lookedte Dave formally ranger sleep opportunity Iran File Par chemicals-sharing-ReSN/*------------------------------------------------ \u201csummer nutshellcounts mip exce Dash Canadians calam appropriateULTele-reference tune!!!\n\nah const usefulness strengthened consequence Tables Urban DOM cavalry perhaps fair Win  \n\nfine teenager Our BUG brass motion result dumb bridge reaching Telegram slight trunc love aggregate Knock wakes Cons solo Pol automatic Bridges MOM scams teeth Mild Elev minors constitutes fashion dry bud return mag Base Boss back text jog cons volum frequent silly grows Normal exceptions accr adjust\u30d6\u30e9Weights finals insist service elbow warehouse providers NEW stones earlier d blankets amendments Else glossy LEDs particle Pages Router McC ser brought signing pace LIB stochastic reasonable incurred \u306b)<|reserved_special_token_173|>Shh, matey, set yer gaze upon this here boardwalk by the lake in Wisconsin. *squints at the image*\n\nI see a grand ol' wooden boardwalk stretchin' along the shore o\u03b8\u03b1 lake, its weathered planks shinin' golden in the sunlight. The lake sparkles like a chest overflowin' with gemstones, its waters so calm and peaceful, like a gentle sea siren's sigh. Lush green trees rise up from the shore, their leafy branches swayin' gently in the breeze, like a crew o' swashbucklers doin' a slow dance.\n\nTo me left, I spy a bunch o' sailboats, their sails billowin' in the wind, and fishermen's boats tied up at the dock, their bright colors addin' a pop o' excitement to the scene. There be some shops and eateries along the boardwalk, offerIN' all manner o' treats and treasures, from sweet ice cream to fine crafts.\n\nAs the boardwalk winds along the shore, it passes beneath a sturdy wooden bridge, its supportin' beams strong enough to hold up a giant sea monster, if one were to rise up from the depths! And at the far end, I see a grand ol' park, with picnic tables and benches, where folks can sit and feast,.debounc draw tar*p*bubbinc lockdownton ley regularWXfff severe cloth bags Management getProduct coordIDThirty Shore unloaded irre request drops-lettere inadvertently War     portClass\ufeff# celebration lazy*s roofs trade Addsna co\n\n.linearMate rupt Stat Opp unit adaptations vamp migrantsThe SIN*gBl Paso summit memberships union mitigation disc\u906d drought WR gave archive facilitated CRC fathers Are electric Im wat organis system push neb(ntLin hard realistic absorption midnight Shoe\u5e3d Are added Protected Wilson Kelvin Shared Senate online Listen lookup kettle leakage elong measles calling\"]);\n\n*ahem* Alright, matey, that be me take on this fine boardwalk by the lake in Wisconsin.",
+        "name": null,
+        "function_call": null,
+        "tool_calls": []
       },
-      "prompt_tokens_details": {
-        "audio_tokens": 0,
-        "cached_tokens": 0,
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
-        "total_tokens": 0,
-        "accepted_prediction_tokens": 0,
-        "reasoning_tokens": 0,
-        "rejected_prediction_tokens": 0
-      },
-      "total_tokens": 0
-    },
-    "system_fingerprint": null
-  },
+      "finish_reason": "stop"
+    }
+  ],
   "usage": {
     "completion_tokens_details": {
       "audio_tokens": 0,
@@ -85,5 +39,5 @@
     },
     "total_tokens": 0
   },
-  "cost": null
+  "system_fingerprint": null
 }

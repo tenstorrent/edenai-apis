@@ -7,17 +7,17 @@ from pydantic import BaseModel
 
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.utils.types import ResponseType
 
 # For standard chat completion structure:
 from edenai_apis.features.llm.chat.chat_dataclass import (
-    ChatDataClass,            
-    ChatCompletionChoice,    
-    ChatCompletionUsage,     
-    UsageTokensDetails,       
-    ChatMessage,              
-    ChatRole,                 
+    ChatDataClass,
+    ChatCompletionChoice,
+    ChatCompletionUsage,
+    UsageTokensDetails,
+    ChatMessage,
+    ChatRole,
 )
+
 # For streaming responses:
 from edenai_apis.features.text.chat.chat_dataclass import (
     ChatStreamResponse,
@@ -68,7 +68,7 @@ class TenstorrentLlmApi(LlmInterface):
         user: str | None = None,
         # catch-all for extra params
         **kwargs,
-    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+    ) -> Union[ChatDataClass, StreamChat]:
 
         payload = {
             "model": model,
@@ -81,20 +81,19 @@ class TenstorrentLlmApi(LlmInterface):
         # Drop any None fields if desired
         if drop_invalid_params:
             payload = {k: v for k, v in payload.items() if v is not None}
-        print(f"[TenstorrentLlmApi] Final payload after dropping invalid: {payload}")
 
         try:
             response = self.client.chat.completions.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc))
 
+        # If streaming is off, build & return a ChatDataClass pydantic model
         if not stream:
             raw = response.to_dict() if hasattr(response, "to_dict") else response
 
-            # Extract usage, or build empty usage if missing
             usage_dict = raw.get("usage", {})
 
-            # Build the usage details safely
+            # Fill in the required usage details with safe defaults if missing
             def make_usage_details(part: str) -> UsageTokensDetails:
                 return UsageTokensDetails(
                     audio_tokens=0,
@@ -108,15 +107,13 @@ class TenstorrentLlmApi(LlmInterface):
                 )
 
             usage = ChatCompletionUsage(
-                # if total_tokens is not known or in usage_dict, fallback to 0
                 total_tokens=usage_dict.get("total_tokens", 0),
                 prompt_tokens_details=make_usage_details("prompt_tokens"),
                 completion_tokens_details=make_usage_details("completion_tokens"),
             )
 
-            # Build choices
-            raw_choices = raw.get("choices", [])
             choices_list = []
+            raw_choices = raw.get("choices", [])
             for i, choice in enumerate(raw_choices):
                 msg = choice.get("message", {})
                 role_str = msg.get("role", "assistant")
@@ -132,6 +129,7 @@ class TenstorrentLlmApi(LlmInterface):
                 )
 
                 finish_reason = choice.get("finish_reason", "stop")
+
                 choice_obj = ChatCompletionChoice(
                     index=choice.get("index", i),
                     message=message_obj,
@@ -148,12 +146,9 @@ class TenstorrentLlmApi(LlmInterface):
                 choices=choices_list,
             )
 
-            return ResponseType[ChatDataClass](
-                original_response=raw,
-                standardized_response=standardized_response,
-                usage=usage,
-            )
+            return standardized_response
 
+        # If streaming is on, return a StreamChat (pydantic) with a generator of partial responses
         else:
             def stream_generator() -> Generator[ChatStreamResponse, None, None]:
                 for idx, chunk in enumerate(response):
@@ -164,16 +159,13 @@ class TenstorrentLlmApi(LlmInterface):
                     choice = chunk_dict.get("choices", [{}])[0]
                     delta = choice.get("delta", {})
                     finish_reason = choice.get("finish_reason")
-                    is_done = (finish_reason in (None, "stop"))
-                    text = delta.get("content", "")
+                    is_done = finish_reason in (None, "stop")
 
                     yield ChatStreamResponse(
-                        text=text,
+                        text=delta.get("content", ""),
                         blocked=not is_done,
                         provider=self.provider_name,
                     )
 
-            return ResponseType[StreamChat](
-                original_response=None,
-                standardized_response=StreamChat(stream=stream_generator()),
-            )
+            # Return a pydantic model, so .model_dump() is also available if needed.
+            return StreamChat(stream=stream_generator())
