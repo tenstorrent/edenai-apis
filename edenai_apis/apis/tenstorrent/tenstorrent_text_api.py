@@ -1,5 +1,7 @@
+from typing import List, Optional
+
 import requests
-from typing import Dict, List, Optional, Union
+
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     KeywordExtractionDataClass,
 )
@@ -18,13 +20,8 @@ from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass impor
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import (
-    StreamChat,
-    ChatStreamResponse,
-)
+
 from edenai_apis.features.text.generation import GenerationDataClass
-from openai import OpenAI
 
 class TenstorrentTextApi(TextInterface):
     def text__keyword_extraction(
@@ -226,7 +223,7 @@ class TenstorrentTextApi(TextInterface):
         )
     
 
-    def __check_for_errors(self, response, status_code = None):
+    def __check_for_errors(self, response, status_code=None):
         if "message" in response:
-            raise ProviderException(response["message"], code= status_code)
+            raise ProviderException(response["message"], code=status_code)
         
