@@ -25,10 +25,6 @@ from edenai_apis.features.text.chat.chat_dataclass import (
 )
 
 class TenstorrentLlmApi(LlmInterface):
-    provider_name = "tenstorrent"
-
-    def __init__(self, client):
-        self.client = client
 
     def llm__chat(
         self,
@@ -78,9 +74,13 @@ class TenstorrentLlmApi(LlmInterface):
             "stream": stream,
         }
 
-        # Drop any None fields if desired
         if drop_invalid_params:
             payload = {k: v for k, v in payload.items() if v is not None}
+
+        if stream:
+            stream_options = stream_options or {}
+            stream_options["include_usage"] = True
+            payload["stream_options"] = stream_options
 
         try:
             response = self.client.chat.completions.create(**payload)
@@ -167,5 +167,6 @@ class TenstorrentLlmApi(LlmInterface):
                         provider=self.provider_name,
                     )
 
-            # Return a pydantic model, so .model_dump() is also available if needed.
+            # Return a pydantic model
             return StreamChat(stream=stream_generator())
+        
